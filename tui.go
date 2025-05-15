@@ -106,16 +106,20 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 			return m, loadSinks()
 		}
-
 	case tea.WindowSizeMsg:
 		h, v := docStyle.GetFrameSize()
 		m.list.SetSize(msg.Width-h, msg.Height-v)
 	case loadSinksMsg:
+		defaultIndex := 0
 		var items []list.Item
-		for _, item := range msg {
+		for i, item := range msg {
 			items = append(items, item)
+			if item.sink.isDefault {
+				defaultIndex = i
+			}
 		}
 		m.list.SetItems(items)
+		m.list.Select(defaultIndex)
 	}
 
 	var cmd tea.Cmd
