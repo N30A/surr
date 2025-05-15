@@ -20,7 +20,7 @@ sudo apt install -y pulseaudio-utils pipewire
 
 ## Installation
 
-Install from repository (requires Go installed)
+Install from repository
 ```bash
 go install github.com/N30A/surr
 ```
@@ -30,7 +30,7 @@ Build from source
 make build
 ```
 
-Install globally (requires Go installed)
+Install from source
 ```bash
 make install
 ```
