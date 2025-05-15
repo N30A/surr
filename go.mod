@@ -1,4 +1,4 @@
-module github.com/n30a/surr
+module github.com/N30A/surr
 
 go 1.24.3
 
