@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -35,9 +36,25 @@ type model struct {
 }
 
 func newModel() model {
-	model := model{list: list.New([]list.Item{}, list.NewDefaultDelegate(), 0, 0)}
-	model.list.Title = "Output devices"
-	return model
+	list := list.New([]list.Item{}, list.NewDefaultDelegate(), 0, 0)
+	list.Title = "Output devices"
+	list.AdditionalShortHelpKeys = func() []key.Binding {
+		return []key.Binding{
+			key.NewBinding(
+				key.WithKeys("enter"),
+				key.WithHelp("enter", "select"),
+			),
+		}
+	}
+	list.AdditionalFullHelpKeys = func() []key.Binding {
+		return []key.Binding{
+			key.NewBinding(
+				key.WithKeys("enter"),
+				key.WithHelp("enter", "select"),
+			),
+		}
+	}
+	return model{list: list}
 }
 
 func (m model) Init() tea.Cmd {
