@@ -9,7 +9,26 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
+const (
+	TitleForeground = lipgloss.Color("#FFFFFF")
+	TitleBackground = lipgloss.Color("#0288D1")
+	AccentColor     = lipgloss.Color("#4FC3F7")
+)
+
 var docStyle = lipgloss.NewStyle().Margin(1, 2)
+
+type itemDelegate struct {
+	list.DefaultDelegate
+}
+
+func newItemDelegate() itemDelegate {
+	deletage := list.NewDefaultDelegate()
+	deletage.Styles.SelectedTitle = deletage.Styles.SelectedTitle.
+		Foreground(AccentColor).
+		BorderLeftForeground(AccentColor)
+	deletage.Styles.SelectedDesc = deletage.Styles.SelectedTitle
+	return itemDelegate{deletage}
+}
 
 type loadSinksMsg []listItem
 
@@ -36,8 +55,13 @@ type model struct {
 }
 
 func newModel() model {
-	list := list.New([]list.Item{}, list.NewDefaultDelegate(), 0, 0)
+	list := list.New([]list.Item{}, newItemDelegate(), 0, 0)
 	list.Title = "Output devices"
+	list.Styles.Title = list.Styles.Title.
+		Foreground(TitleForeground).
+		Background(TitleBackground)
+	list.FilterInput.Cursor.Style = list.FilterInput.Cursor.Style.Foreground(AccentColor)
+	list.FilterInput.PromptStyle = list.FilterInput.PromptStyle.Foreground(AccentColor)
 	list.AdditionalShortHelpKeys = func() []key.Binding {
 		return []key.Binding{
 			key.NewBinding(
